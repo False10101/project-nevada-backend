@@ -9,7 +9,7 @@ export const addEvent = (req, res) => {
         return res.status(401).json({ success: false, message: 'Please log in' });
     }
 
-    database.query('INSERT INTO calendar_events (date, name, description, start_time,  end_time, status,comment, uid) VALUES (?, ?, ?, ?, ?, ?, ?)', [date, name, description, start_time,  end_time, status, comment, uid ], (err, result) => {
+    database.query('INSERT INTO calendar_events (date, name, description, start_time,  end_time, status, comment, uid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [date, name, description, start_time,  end_time, status, comment, uid ], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             return res.status(500).json({ success: false, message: 'Database error', error: err.message });

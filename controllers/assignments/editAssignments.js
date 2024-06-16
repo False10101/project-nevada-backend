@@ -1,12 +1,10 @@
 import database from "../../database/database.js";
 import fs from 'fs';
 import path from 'path';
-import upload from '../../middleware/uploadMiddlewares.js'; // Ensure correct import path for multer middleware
-import multer from 'multer';
 
 export const editAssignment = (req, res) => {
     const uid = req.userId;
-    const { name, completion_date, classname, status, due_date, id } = req.body;
+    const { name, completion_date, classname, status, due_date, comment, id } = req.body;
 
     if (!uid) {
         return res.status(401).json({ success: false, message: 'Please log in' });
@@ -29,8 +27,8 @@ export const editAssignment = (req, res) => {
         const newFileName = req.file ? req.file.filename : oldFileName;
 
         database.query(
-            'UPDATE assignments SET name = ?, completion_date = ?, classname = ?, file = ?, status = ?, due_date = ? WHERE id = ? AND uid = ?',
-            [name, completion_date, classname, newFileName, status, due_date, id, uid],
+            'UPDATE assignments SET name = ?, completion_date = ?, classname = ?, file = ?, status = ?, due_date = ?, comment = ? WHERE id = ? AND uid = ?',
+            [name, completion_date, classname, newFileName, status, due_date, comment, id, uid],
             (err, result) => {
                 if (err) {
                     console.error('Database error:', err);
