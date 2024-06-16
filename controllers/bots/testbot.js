@@ -40,8 +40,14 @@ testbot.onText(/\/help/, (msg) => {
   testbot.sendMessage(msg.chat.id, "Available commands:\n/start - Start the bot\n/help - Get help information");
 });
 
+testbot.on('message', (msg) => {
+  const isCommand = msg.text && msg.text.startsWith('/');
+  
+  if (!isCommand) {
+    testbot.sendMessage(msg.chat.id, "Please only use bot commands. Type /help to see the list of available commands.");
+  }
+});
 
-// Error handling for polling errors
 testbot.on('polling_error', (error) => {
   console.error(`Polling error: ${error.code} - ${error.message}`);
   if (error.code === 'EFATAL') {
@@ -50,8 +56,9 @@ testbot.on('polling_error', (error) => {
       testbot.startPolling()
         .then(() => console.log('Reconnected successfully'))
         .catch((pollError) => console.error('Reconnection error:', pollError));
-    }, 5000); 
+    }, 5000); // Retry after 5 seconds
   }
+
 });
 
 
