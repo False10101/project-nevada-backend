@@ -1,4 +1,3 @@
-// editAssignment.js
 import database from "../../database/database.js";
 import fs from 'fs';
 import path from 'path';

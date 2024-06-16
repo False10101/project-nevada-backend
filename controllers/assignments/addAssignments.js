@@ -1,5 +1,4 @@
 import database from "../../database/database.js";
-import upload from '../../middleware/uploadMiddlewares.js'; 
 
 export const addAssignment = (req, res) => {
     const uid = req.userId;

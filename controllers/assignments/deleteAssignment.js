@@ -1,4 +1,3 @@
-// addAssignment.js
 import database from "../../database/database.js";
 import fs from 'fs'; // Node.js filesystem module
 import path from 'path'; // Node.js path module
