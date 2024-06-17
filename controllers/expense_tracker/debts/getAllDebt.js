@@ -1,4 +1,5 @@
 import database from "../../../database/database.js";
+import { format } from 'date-fns-tz';
 
 export const getAllDebt = (req, res) => {
 
@@ -15,6 +16,11 @@ export const getAllDebt = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error', error: err.message });
         }
 
-        return res.json({ success: true, data: result, error: null });
-    });
+        const adjustedResult = result.map(debt => ({
+            ...debt,
+            payment_time: format(new Date(debt.payment_time), 'yyyy-MM-dd HH:mm:ss', { timeZone: 'Asia/Bangkok' }),
+        }));
+
+        return res.json({ success: true, data: adjustedResult, error: null });
+        });
 };

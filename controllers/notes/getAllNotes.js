@@ -1,4 +1,5 @@
 import database from "../../database/database.js";
+import { format } from 'date-fns-tz';
 
 export const getAllNotes = (req, res) => {
 
@@ -14,6 +15,11 @@ export const getAllNotes = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error', error: err.message });
         }
 
-        return res.json({ success: true, data: result, error: null });
+        const adjustedResult = result.map(note => ({
+            ...note,
+            datetime: format(new Date(note.datetime), 'yyyy-MM-dd HH:mm:ss', { timeZone: 'Asia/Bangkok' }),
+        }));
+
+        return res.json({ success: true, data: adjustedResult, error: null });
     });
 };

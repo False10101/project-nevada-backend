@@ -1,4 +1,5 @@
 import database from "../../database/database.js";
+import { format } from 'date-fns-tz';
 
 export const getAllChores = (req, res) => {
 
@@ -14,6 +15,12 @@ export const getAllChores = (req, res) => {
             return res.status(500).json({ success: false, message: 'Database error', error: err.message });
         }
 
-        return res.json({ success: true, data: result, error: null });
+        const adjustedResult = result.map(chore => ({
+            ...chore,
+            date_of_completion: format(new Date(chore.date_of_completion), 'yyyy-MM-dd', { timeZone: 'Asia/Bangkok' }),
+            due_date: format(new Date(chore.due_date), 'yyyy-MM-dd', { timeZone: 'Asia/Bangkok' }),
+        }));
+
+        return res.json({ success: true, data: adjustedResult, error: null });
     });
 };
